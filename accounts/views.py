@@ -1,5 +1,6 @@
+import json
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import  authenticate,login,logout
@@ -28,29 +29,20 @@ def sign_up(request):
     return render(request, "accounts/signup.html", {"form": form})
 
 def sign_in(request):
+    resp = {"status":'failed'}
     if request.method == "POST":
         username = request.POST["email"]
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
         if user:
             login(request,user)
-            # messages.success(request, "login")
-            # print('user')
-            context = {
-                "success": True
-            }
-            # context['success'] = True
+            resp['status'] = 'success'
 
-            # redirect(reverse('app:view', kwargs={ 'success': True}))
-            # return redirect("home",{"success": True} )
-            return render(request,"base/index.html", context)
+            
         else:
-            context = {
-                "error": True
-            }
-            print(context)
-            return render(request, "accounts/signin.html", context)
-    
+            resp['status'] = 'failed'
+            return HttpResponse(json.dumps(resp), content_type= 'application/json')
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
     return render(request, "accounts/signin.html")
 
 def sign_out(request):

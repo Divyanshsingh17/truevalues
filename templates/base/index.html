@@ -65,35 +65,36 @@
     <div class="searchbar">
       <div class="row">
         <div class="col-lg-6 col-sm-6">
-          <form action="#" method="post">
-            <input type="text" class="form-control" placeholder="Search of Properties">
+          <form action="" method="get">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="search" value="{{search}}" placeholder="Search of Cars">
             <div class="row">
               <div class="col-lg-3 col-sm-3">
-                <select class="form-control">
-                  <option>Buy</option>
-                  <option>Rent</option>
-                  <option>Sale</option>
+                <select class="form-control" name="type">
+                  <option value = "New">New</option>
+                  <option value = "Used">Used</option>
                 </select>
               </div>
               <div class="col-lg-3 col-sm-4">
-                <select class="form-control">
-                  <option>Price</option>
-                  <option>$150,000 - $200,000</option>
-                  <option>$200,000 - $250,000</option>
-                  <option>$250,000 - $300,000</option>
-                  <option>$300,000 - above</option>
+                <select name="price"  class="form-control"   style="margin-left: auto;">
+                    <option disabled selected hidden>Price</option>
+                    <option value="500000"  {% if price == '500000' %}selected{% endif %}  >less than 5Lakh</option>
+                    <option value="1000000" {% if price == '1000000' %}selected{% endif %}>less than 10Lakh</option>
+                    <option  value="2000000" {% if price == '2000000' %}selected{% endif %}>less than 20Lakh</option>
+                    <option  value="5000000" {% if price == '5000000' %}selected{% endif %}>less than 50Lakh</option>
                 </select>
               </div>
               <div class="col-lg-3 col-sm-4">
-                <select class="form-control">
-                  <option>Property</option>
-                  <option>Apartment</option>
-                  <option>Building</option>
-                  <option>Office Space</option>
-                </select>
+                <select name="body_type" class="form-control"  style="margin-left: auto;">
+                  <option  disabled selected hidden>Body Type</option>
+                  <option value="sedan" {% if body_type == 'sedan' %}selected{% endif %}>Sedan</option>
+                  <option value="SUV" {% if body_type == 'SUV' %}selected{% endif %} >SUV</option>
+                  <option  value="coupe" {% if body_type == 'coupe' %}selected{% endif %} >Coupe</option>
+                  <option  value="MUV" {% if body_type == 'MUV' %}selected{% endif %} >MUV</option>
+              </select>
               </div>
               <div class="col-lg-3 col-sm-4">
-                <button class="btn btn-success">Find Now</button>
+                <button class="btn btn-success" type="submit">Find Now</button>
               </div>
             </div>
           </form>
@@ -178,48 +179,49 @@
             <li data-target="#myCarousel" data-slide-to="3"></li>
           </ol>
           <div class="carousel-inner">
-            
+          {% for car in cars|slice:":4" %}
+            {% if car.id == 1 %} 
             <div class="item active">
-              {% for car in cars|slice:":4" %}
               <div class="row">
-                
                 <div class="col-lg-4"><img src="/media/{{car.image_1}}" class="img-responsive" alt="website template image"></div>
                 <div class="col-lg-8">
                   <h5><a href="property-detail.html">{{car.brand}}</a></h5>
                   <p class="price">{{car.exshowroom_price}}</p>
                   <a href="{% url 'details' car.id %}" class="more">More Detail</a></div>
-                
-              </div>
-              {% endfor %}
-            </div>
-            
-            <!-- <div class="item">
-              <div class="row">
-                <div class="col-lg-4"><img src="assets/images/properties/2.jpg" class="img-responsive" alt="website template image"></div>
-                <div class="col-lg-8">
-                  <h5><a href="property-detail.html">Integer sed porta quam</a></h5>
-                  <p class="price">$300,000</p>
-                  <a href="property-detail.html" class="more">More Detail</a></div>
               </div>
             </div>
+            {% elif car.id == 3 %} 
             <div class="item">
               <div class="row">
-                <div class="col-lg-4"><img src="assets/images/properties/3.jpg" class="img-responsive" alt="website template image"></div>
+                <div class="col-lg-4"><img src="/media/{{car.image_1}}" class="img-responsive" alt="website template image"></div>
                 <div class="col-lg-8">
-                  <h5><a href="property-detail.html">Integer sed porta quam</a></h5>
-                  <p class="price">$300,000</p>
-                  <a href="property-detail.html" class="more">More Detail</a></div>
+                  <h5><a href="property-detail.html">{{car.brand}}</a></h5>
+                  <p class="price">{{car.exshowroom_price}}</p>
+                  <a href="{% url 'details' car.id %}" class="more">More Detail</a></div>
               </div>
             </div>
+            {% elif car.id == 2 %} 
             <div class="item">
               <div class="row">
-                <div class="col-lg-4"><img src="assets/images/properties/4.jpg" class="img-responsive" alt="website template image"></div>
+                <div class="col-lg-4"><img src="/media/{{car.image_1}}" class="img-responsive" alt="website template image"></div>
                 <div class="col-lg-8">
-                  <h5><a href="property-detail.html">Integer sed porta quam</a></h5>
-                  <p class="price">$300,000</p>
-                  <a href="property-detail.html" class="more">More Detail</a></div>
+                  <h5><a href="property-detail.html">{{car.brand}}</a></h5>
+                  <p class="price">{{car.exshowroom_price}}</p>
+                  <a href="{% url 'details' car.id %}" class="more">More Detail</a></div>
               </div>
-            </div> -->
+            </div>
+            {% elif car.id == 4 %} 
+            <div class="item">
+              <div class="row">
+                <div class="col-lg-4"><img src="/media/{{car.image_1}}" width="200" height="130" class="img-responsive" alt="website template image"></div>
+                <div class="col-lg-8">
+                  <h5><a href="property-detail.html">{{car.brand}}</a></h5>
+                  <p class="price">{{car.exshowroom_price}}</p>
+                  <a href="{% url 'details' car.id %}" class="more">More Detail</a></div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
+{% load static %}
 <div class="inside-banner">
   <div class="container"><span class="pull-right"><a href="https://www.free-css.com/free-css-templates">Home</a> / Contact Us</span>
     <h2>Contact Us</h2>
@@ -27,6 +28,12 @@
     </div>
   </div>
 </div>
+<script src="{% static 'assets/js/notiflix.js' %}"></script>
+<script>
+  {% if success %}
+  Notiflix.Notify.success('Thanks your query has been registered!')
+  {% endif %}
+</script>
 
 
 {% endblock %}

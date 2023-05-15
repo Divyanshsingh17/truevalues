@@ -6,16 +6,17 @@
     <br>
     <br>
     <div style="display: flex; justify-content: center;">
-      <form action="" , method="post" style="width: 300px; ">
-        {% csrf_token%}
+      <h2></h2>
+      <form id="post-form" style="width: 300px; ">
+        {% csrf_token %}
         <div class="form-group">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email"
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email"
             placeholder="Enter email" required>
         </div>
         <div class="form-group">
           <label for="id_password">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password"
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password"
             required>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -30,12 +31,34 @@
       <br>
       <br>
         
-    
-      <script src="{% static 'assets/js/notiflix.js' %}"></script>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="{% static 'assets/js/notiflix.js' %}"></script>
-    <script>
-        {% if error %}
-            Notiflix.Notify.failure('Invalid username or password! ')
-        {% endif %}
+    <script src="{% static 'assets/js/notiflix.js' %}"></script>text/javascript
+    <script type="text/javascript">
+      $(document).on('submit','#post-form',function(e){
+        e.preventDefault();
+      
+
+        $.ajax({
+          type:'post',
+          url:'{% url "signin" %}',
+          data:{
+            email:$('#email').val(),
+            password:$('#password').val(),
+            csrfmiddlewaretoken:$('input[name = csrfmiddlewaretoken]').val(),
+          },
+          success:function(resp){
+            if (resp.status == 'success'){
+              Notiflix.Notify.success('Login successfully.... ')
+              location.href = "{% url 'home' %}"
+              
+            }
+            if (resp .status == 'failed'  ){
+              Notiflix.Notify.failure('Invalid username or password! ')
+            }
+
+          }
+        });
+      });
     </script>
 {% endblock %}

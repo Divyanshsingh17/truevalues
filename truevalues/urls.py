@@ -25,6 +25,7 @@ urlpatterns = [
     path('about/',views.about, name = 'about'),
     path('agents/',views.agents, name = 'agents'),
     path('blog/',views.blogs, name = 'blog'),
+    path('blog/<int:pk>/',views.blogdetail, name = 'blogdetail'),
     path('contact/',views.contact, name = 'contact'),
     path('accounts/',include('accounts.urls')),
     path('cars/',include('cars.urls'))

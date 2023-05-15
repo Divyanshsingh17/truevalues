@@ -17,7 +17,7 @@
             <h3><a href="blogdetail.html">{{blog.blog_name}}</a></h3>
             <div class="info">{{posted_on}}</div>
             <p>{{blog.blog_desc}}</p>
-            <a href="blogdetail.html" class="more">Read More</a></div>
+            <a href="{% url 'blogdetail' blog.id %}" class="more">Read More</a></div>
         </div>
         {% endfor %}
       </div>

@@ -1,11 +1,11 @@
 from django.db import models
-
+from accounts.models import User
 # Create your models here.
 
 class Agents(models.Model):
     agent_img = models.ImageField(upload_to='agents/')
     agent_name = models.CharField(max_length=100)
-    agent_desc = models.TextField()
+    agent_desc = models.TextField(max_length=300)
     agent_email = models.EmailField(max_length=50)
     agent_phn_no = models.CharField(max_length=12)
 
@@ -34,3 +34,15 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.full_name
+    
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    content = models.TextField()
+    active = models.BooleanField(default=False)
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.first_name
+    
